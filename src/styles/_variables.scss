@@ -135,15 +135,17 @@ $primary-color-name: blue;
 $secondary-color-name: gray;
 
 $colors: (
-																primary: map-get($ant-colors, blue),
-																secondary: map-get($ant-colors, $secondary-color-name),
-																success: map-get($ant-colors, green),
-																warning: map-get($ant-colors, gold),
-																danger: map-get($ant-colors, red),
-																info: map-get($ant-colors, cyan),
-																light: map-get(map-get($ant-colors, gray), 5),
-																dark: map-get(map-get($ant-colors, gray), 8),
-																neutral: map-get($ant-colors, gray),
+		primary: map-get($ant-colors, blue),
+		secondary: map-get($ant-colors, $secondary-color-name),
+		success: map-get($ant-colors, green),
+		warning: map-get($ant-colors, gold),
+		danger: map-get($ant-colors, red),
+		info: map-get($ant-colors, cyan),
+		light: map-get(map-get($ant-colors, gray), 5),
+		dark: map-get(map-get($ant-colors, gray), 8),
+		neutral: map-get($ant-colors, gray),
+		white: #fff,
+		black: #000,
 );
 
 $spacing: (
@@ -187,7 +189,7 @@ $font-weights: (
 );
 
 $borders: (
-																sm: 1px solid map-get(map-get($colors, neutral), 5),
-																md: 2px solid map-get(map-get($colors, neutral), 5),
-																lg: 4px solid map-get(map-get($colors, neutral), 5),
+		sm: 1px solid map-get(map-get($colors, neutral), 5),
+		md: 2px solid map-get(map-get($colors, neutral), 5),
+		lg: 4px solid map-get(map-get($colors, neutral), 5),
 );

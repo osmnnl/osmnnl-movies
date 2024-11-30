@@ -5,6 +5,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import CustomConfigProvider from "./components/CustomConfigProvider";
 import queryClient from "./utils/queryClient";
 import routes from "./routes";
+import LayoutComponent from "./components/Layout/LayoutComponent";
 
 function AppRoutes() {
   const element = useRoutes(routes);
@@ -19,7 +20,9 @@ function App() {
           <AntdApp>
             <CustomConfigProvider>
               <ErrorBoundary>
-                <AppRoutes />
+                <LayoutComponent>
+                  <AppRoutes />
+                </LayoutComponent>
               </ErrorBoundary>
             </CustomConfigProvider>
           </AntdApp>

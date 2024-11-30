@@ -1,16 +1,27 @@
-import { lazy } from "react";
+// src/routes/index.tsx
+
+import { lazy, Suspense } from "react";
+import { ROUTES } from "./paths";
 
 const Home = lazy(() => import("../pages/Home"));
 const Detail = lazy(() => import("../pages/Detail"));
 
 const routes = [
 	{
-		path: "/",
-		element: <Home />,
+		path: ROUTES.HOME,
+		element: (
+			<Suspense fallback={<div>Loading...</div>}>
+				<Home />
+			</Suspense>
+		),
 	},
 	{
-		path: "/detail",
-		element: <Detail />,
+		path: ROUTES.DETAIL,
+		element: (
+			<Suspense fallback={<div>Loading...</div>}>
+				<Detail />
+			</Suspense>
+		),
 	},
 ];
 
