@@ -1,0 +1,22 @@
+@import 'variables';
+@import 'mixins';
+@import 'utilities';
+
+body {
+	background-color: map-get($colors, light);
+	color: map-get($colors, dark);
+	margin: 0;
+	padding: 0;
+}
+
+* {
+	font-family: 'Inter', sans-serif !important;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}

@@ -1,0 +1,151 @@
+@import 'variables';
+@import 'mixins';
+
+@each $key, $value in $spacing {
+
+	.pt-#{$key} {
+		padding-top: $value;
+	}
+
+	.pb-#{$key} {
+		padding-bottom: $value;
+	}
+
+	.pl-#{$key} {
+		padding-left: $value;
+	}
+
+	.pr-#{$key} {
+		padding-right: $value;
+	}
+
+	.p-#{$key} {
+		padding: $value;
+	}
+
+	.mt-#{$key} {
+		margin-top: $value;
+	}
+
+	.mb-#{$key} {
+		margin-bottom: $value;
+	}
+
+	.ml-#{$key} {
+		margin-left: $value;
+	}
+
+	.mr-#{$key} {
+		margin-right: $value;
+	}
+
+	.m-#{$key} {
+		margin: $value;
+	}
+
+	.h-#{$key} {
+		height: $value;
+	}
+
+	.w-#{$key} {
+		width: $value;
+	}
+}
+
+@each $size, $value in $font-sizes {
+	.fs-#{$size} {
+		font-size: $value;
+	}
+}
+
+@each $weight, $value in $font-weights {
+	.fw-#{$weight} {
+		font-weight: $value;
+	}
+}
+
+@each $color, $tones in $colors {
+	@if type-of($tones)==map {
+
+		// Her bir ton için sınıflar oluştur
+		@each $tone, $hex in $tones {
+			.text-#{$color}-#{$tone} {
+				@include color($color, $tone);
+			}
+
+			.bg-#{$color}-#{$tone} {
+				@include background-color($color, $tone);
+			}
+		}
+
+		// Varsayılan ton için sınıflar oluştur (örneğin, ton 6)
+		.text-#{$color} {
+			@include color($color, 6);
+		}
+
+		.bg-#{$color} {
+			@include background-color($color, 6);
+		}
+	}
+
+	@else {
+		.text-#{$color} {
+			@include color($color);
+		}
+
+		.bg-#{$color} {
+			@include background-color($color);
+		}
+	}
+}
+
+.ta-left {
+	text-align: left;
+}
+
+.ta-center {
+	text-align: center;
+}
+
+.ta-right {
+	text-align: right;
+}
+
+.d-flex {
+	display: flex;
+}
+
+.flex-column {
+	flex-direction: column;
+}
+
+.flex-row {
+	flex-direction: row;
+}
+
+.align-center {
+	align-items: center;
+}
+
+.justify-center {
+	justify-content: center;
+}
+
+.justify-end {
+	justify-content: flex-end;
+}
+
+.justify-between {
+	justify-content: space-between;
+}
+
+.justify-around {
+	justify-content: space-around;
+}
+
+@each $name, $value in $borders {
+	.border-#{$name} {
+		border: $value;
+	}
+}
+

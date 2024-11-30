@@ -1,0 +1,29 @@
+@import 'variables';
+
+@mixin color($color, $tone: null) {
+	@if $tone !=null and map-has-key(map-get($colors, $color), $tone) {
+			color: map-get(map-get($colors, $color), $tone);
+	}
+
+	@else if map-has-key($colors, $color) {
+		color: map-get($colors, $color);
+	}
+
+	@else {
+		@warn "Color `#{$color}` not found in `$colors` map.";
+	}
+}
+
+@mixin background-color($color, $tone: null) {
+	@if $tone !=null and map-has-key(map-get($colors, $color), $tone) {
+			background-color: map-get(map-get($colors, $color), $tone);
+	}
+
+	@else if map-has-key($colors, $color) {
+		background-color: map-get($colors, $color);
+	}
+
+	@else {
+		@warn "Background color `#{$color}` not found in `$colors` map.";
+	}
+}
