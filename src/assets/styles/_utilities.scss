@@ -23,6 +23,16 @@
 		padding: $value;
 	}
 
+	.px-#{$key} {
+		padding-left: $value;
+		padding-right: $value;
+	}
+
+	.py-#{$key} {
+		padding-top: $value;
+		padding-bottom: $value;
+	}
+
 	.mt-#{$key} {
 		margin-top: $value;
 	}
@@ -43,6 +53,15 @@
 		margin: $value;
 	}
 
+	.mx-#{$key} {
+		margin-left: $value;
+		margin-right: $value;
+	}
+
+	.my-#{$key} {
+		margin-top: $value;
+		margin-bottom: $value;
+	}
 	.h-#{$key} {
 		height: $value;
 	}
@@ -64,41 +83,73 @@
 	}
 }
 
-$height-sizes: (
+$height-sizes-vh: (
 	"100": 100vh,
 	"50": 50vh,
 	"25": 25vh
 );
 
-@each $key, $value in $height-sizes {
-	.min-h-#{$key} {
+$height-sizes-percent: (
+	"100": 100%,
+	"50": 50%,
+	"25": 25%
+);
+
+$width-sizes-vw: (
+	"100": 100vw,
+	"50": 50vw,
+	"25": 25vw
+);
+
+$width-sizes-percent: (
+	"100": 100%,
+	"50": 50%,
+	"25": 25%
+);
+
+@each $key, $value in $height-sizes-vh {
+	.min-h-v#{$key} {
 		min-height: $value;
 	}
 
-	.h-#{$key} {
+	.h-v#{$key} {
 		height: $value;
 	}
 }
 
-$width-sizes: (
-	"100": 100vh,
-	"50": 50vh,
-	"25": 25vh
-);
+@each $key, $value in $height-sizes-percent {
+	.min-h-p#{$key} {
+		min-height: $value;
+	}
 
-@each $key, $value in $width-sizes {
-	.min-w-#{$key} {
+	.h-p#{$key} {
+		height: $value;
+	}
+}
+
+@each $key, $value in $width-sizes-vw {
+	.min-w-v#{$key} {
 		min-width: $value;
 	}
 
-	.w-#{$key} {
+	.w-v#{$key} {
 		width: $value;
 	}
 }
+
+@each $key, $value in $width-sizes-percent {
+	.min-w-p#{$key} {
+		min-width: $value;
+	}
+
+	.w-p#{$key} {
+		width: $value;
+	}
+}
+
 @each $color, $tones in $colors {
 	@if type-of($tones)==map {
 
-		// Her bir ton için sınıflar oluştur
 		@each $tone, $hex in $tones {
 			.text-#{$color}-#{$tone} {
 				@include color($color, $tone);
@@ -109,7 +160,6 @@ $width-sizes: (
 			}
 		}
 
-		// Varsayılan ton için sınıflar oluştur (örneğin, ton 6)
 		.text-#{$color} {
 			@include color($color, 6);
 		}
@@ -244,4 +294,7 @@ $box-shadows: (
 	.shadow-#{$key} {
 		box-shadow: $value;
 	}
+}
+.cursor-pointer {
+	cursor: pointer;
 }

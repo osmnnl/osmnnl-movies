@@ -1,6 +1,5 @@
-// src/routes/index.tsx
-
 import { lazy, Suspense } from "react";
+import { Spin } from "antd";
 import { ROUTES } from "./paths";
 
 const Home = lazy(() => import("../pages/Home"));
@@ -10,7 +9,13 @@ const routes = [
 	{
 		path: ROUTES.HOME,
 		element: (
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense
+				fallback={
+					<div className="d-flex align-center justify-center h-v100">
+						<Spin size="large" />
+					</div>
+				}
+			>
 				<Home />
 			</Suspense>
 		),
@@ -18,7 +23,13 @@ const routes = [
 	{
 		path: ROUTES.DETAIL,
 		element: (
-			<Suspense fallback={<div>Loading...</div>}>
+			<Suspense
+				fallback={
+					<div className="d-flex align-center justify-center h-v100">
+						<Spin size="large" />
+					</div>
+				}
+			>
 				<Detail />
 			</Suspense>
 		),

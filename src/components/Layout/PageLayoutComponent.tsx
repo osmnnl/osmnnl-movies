@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Breadcrumb, Spin } from "antd";
+import { Breadcrumb } from "antd";
 
 interface PageLayoutComponentProps {
 	title: string;
@@ -7,8 +7,6 @@ interface PageLayoutComponentProps {
 	children: React.ReactNode;
 	filterPanel?: React.ReactNode;
 	breadCrumbItems?: { title: string; link?: string }[];
-	isLoading?: boolean;
-	isError?: string;
 }
 
 const PageLayoutComponent: React.FC<PageLayoutComponentProps> = ({
@@ -17,8 +15,6 @@ const PageLayoutComponent: React.FC<PageLayoutComponentProps> = ({
 	children,
 	filterPanel,
 	breadCrumbItems,
-	isLoading = false,
-	isError,
 }) => {
 	return (
 		<div className="bg-white p-4 m-20">
@@ -28,7 +24,7 @@ const PageLayoutComponent: React.FC<PageLayoutComponentProps> = ({
 						<Breadcrumb.Item
 							key={index}
 							onClick={() => item.link && (window.location.href = item.link)}
-							className={item.link ? "text-primary cursor-pointer" : ""}
+							className={item.link ? "cursor-pointer" : ""}
 						>
 							{item.title}
 						</Breadcrumb.Item>
@@ -48,17 +44,9 @@ const PageLayoutComponent: React.FC<PageLayoutComponentProps> = ({
 					{filterPanel}
 				</div>
 			)}
-			{isLoading ? (
-				<div className="d-flex justify-center items-center pt-20 pb-20">
-					<Spin size="large" />
-				</div>
-			) : isError ? (
-				<Alert message={isError} type="error" showIcon className="mb-4" />
-			) : (
-				<div className="p-4 rounded-md shadow-sm">
-					{children}
-				</div>
-			)}
+			<div className="p-4 rounded-md shadow-sm">
+				{children}
+			</div>
 		</div>
 	);
 };

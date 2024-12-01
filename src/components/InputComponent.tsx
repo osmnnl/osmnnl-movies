@@ -1,8 +1,9 @@
 import React from "react";
 import { Input } from "antd";
+import { useTranslation } from 'react-i18next';
 
 interface InputComponentProps {
-	placeholder?: string;
+	placeholderKey?: string;
 	value?: string;
 	onChange?: (value: string) => void;
 	onPressEnter?: () => void;
@@ -12,7 +13,7 @@ interface InputComponentProps {
 }
 
 const InputComponent: React.FC<InputComponentProps> = ({
-	placeholder = "Enter text",
+	placeholderKey = "input.placeholder",
 	value,
 	onChange,
 	onPressEnter,
@@ -20,9 +21,11 @@ const InputComponent: React.FC<InputComponentProps> = ({
 	maxLength,
 	className,
 }) => {
+	const { t } = useTranslation();
+
 	return (
 		<Input
-			placeholder={placeholder}
+			placeholder={t(placeholderKey)}
 			value={value}
 			onChange={(e) => onChange?.(e.target.value)}
 			onPressEnter={onPressEnter}

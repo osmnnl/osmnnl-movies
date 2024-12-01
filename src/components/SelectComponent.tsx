@@ -1,11 +1,12 @@
 import React from "react";
 import { Select } from "antd";
+import { useTranslation } from 'react-i18next';
 
 const { Option } = Select;
 
 interface SingleSelectProps {
 	options: { value: string; label: string }[];
-	placeholder?: string;
+	placeholderKey?: string; 
 	value?: string;
 	onChange: (value: string) => void;
 	disabled?: boolean;
@@ -14,20 +15,21 @@ interface SingleSelectProps {
 
 const SingleSelect: React.FC<SingleSelectProps> = ({
 	options,
-	placeholder = "Please select",
+	placeholderKey = "select.placeholder",
 	value,
 	onChange,
 	disabled = false,
 	className,
 }) => {
+	const { t } = useTranslation();
+
 	return (
 		<Select
 			value={value}
 			onChange={onChange}
-			placeholder={placeholder}
+			placeholder={t(placeholderKey)}
 			disabled={disabled}
-			className={className}
-			style={{ width: "100%" }}
+			className={`w-p100 ${className}`}
 		>
 			{options.map((option) => (
 				<Option key={option.value} value={option.value}>

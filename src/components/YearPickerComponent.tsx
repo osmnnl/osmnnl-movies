@@ -1,18 +1,28 @@
-// src/components/YearPicker.tsx
 import React from "react";
 import { DatePicker } from "antd";
+import { useTranslation } from 'react-i18next';
 import dayjs, { Dayjs } from "dayjs";
 
 interface YearPickerProps {
 	value?: string | null;
 	onChange?: (value: string | null) => void;
 	className?: string;
+	minYear?: number;
+	maxYear?: number;
 }
 
-const YearPicker: React.FC<YearPickerProps> = ({ value, onChange, className }) => {
+const YearPicker: React.FC<YearPickerProps> = ({
+	value,
+	onChange,
+	className,
+	minYear = 1900,
+	maxYear = new Date().getFullYear()
+}) => {
+	const { t } = useTranslation();
+
 	const disabledDate = (current: Dayjs) => {
 		const year = current.year();
-		return year < 1900 || year > new Date().getFullYear();
+		return year < minYear || year > maxYear;
 	};
 
 	const handleChange = (date: Dayjs | null) => {
@@ -31,10 +41,9 @@ const YearPicker: React.FC<YearPickerProps> = ({ value, onChange, className }) =
 			onChange={handleChange}
 			disabledDate={disabledDate}
 			allowClear
-			placeholder="Select year"
+			placeholder={t('yearPicker.placeholder')}
 			value={valueDayjs}
-			className={className}
-			style={{ width: "100%" }}
+			className={`w-p100 ${className}`}
 		/>
 	);
 };

@@ -1,20 +1,14 @@
 import { useQuery } from 'react-query';
 import { searchMovies, getMovieDetails } from '../../api/services/omdbService';
-import { MovieSearchResponse, MovieDetail } from '../../types/omdbTypes';
-
-interface SearchMoviesParams {
-	search: string;
-	year?: string;
-	type?: string;
-	page?: number;
-}
+import { MovieSearchResponse, MovieDetail, SearchMoviesParams } from '../../types/omdbTypes';
 
 export const useSearchMovies = (params: SearchMoviesParams) =>
-	useQuery<MovieSearchResponse>(
+	useQuery<MovieSearchResponse, Error>(
 		['searchMovies', params],
 		() => searchMovies(params),
 		{
 			enabled: !!params.search,
+			retry: false, 
 		}
 	);
 

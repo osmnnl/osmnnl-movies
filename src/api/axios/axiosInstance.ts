@@ -1,5 +1,3 @@
-// src/api/axios/axiosInstance.ts
-
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -7,7 +5,6 @@ const axiosInstance = axios.create({
 	timeout: 10000,
 });
 
-// Request Interceptor
 axiosInstance.interceptors.request.use(
 	(config) => {
 		config.params = {
@@ -19,7 +16,6 @@ axiosInstance.interceptors.request.use(
 	(error) => Promise.reject(error)
 );
 
-// Response Interceptor
 axiosInstance.interceptors.response.use(
 	(response) => response,
 	(error) => {

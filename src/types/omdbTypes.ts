@@ -35,3 +35,11 @@ export interface MovieDetail {
 	Response: string;
 	Error?: string;
 }
+
+
+export interface SearchMoviesParams {
+	search: string;
+	year?: string;
+	type?: string;
+	page?: number;
+}

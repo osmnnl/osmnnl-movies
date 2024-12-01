@@ -1,108 +1,121 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import PageLayoutComponent from "../../components/Layout/PageLayoutComponent";
 import Filter from "./Filter";
 import { useSearchMovies } from "../../hooks/apiCalls/useMovies";
-import { Table, Pagination, Alert, Tooltip } from "antd";
+import { Table, Pagination, Tooltip } from "antd";
 import { generatePath, useNavigate } from "react-router-dom";
 import { EyeOutlined } from "@ant-design/icons";
 import { ROUTES } from "../../routes/paths";
+import StatusComponent from "../../components/StatusComponent";
+
+interface FilterState {
+	search: string;
+	year: string | null;
+	type: string | null;
+	page: number;
+}
 
 const HomePage: React.FC = () => {
-	const [filters, setFilters] = useState<{
-		search: string;
-		year: string | null;
-		type: string | null;
-	}>({
+	const { t } = useTranslation();
+	const navigate = useNavigate();
+
+	const [filterState, setFilterState] = useState<FilterState>({
 		search: "Pokemon",
 		year: null,
 		type: null,
+		page: 1,
 	});
-
-	const navigate = useNavigate();
-	const [currentPage, setCurrentPage] = useState(1);
 
 	const { data, isLoading, error } = useSearchMovies({
-		search: filters.search,
-		year: filters.year || undefined,
-		type: filters.type || undefined,
-		page: currentPage,
+		search: filterState.search,
+		year: filterState.year || undefined,
+		type: filterState.type || undefined,
+		page: filterState.page,
 	});
 
-	const handleFilterChange = (newFilters: {
-		search: string;
-		year: string | null;
-		type: string | null;
-	}) => {
-		setFilters(newFilters);
-		setCurrentPage(1);
+	const handleFilterChange = (newFilters: Omit<FilterState, "page">) => {
+		setFilterState((prev) => ({ ...prev, ...newFilters, page: 1 }));
 	};
 
 	const handlePageChange = (page: number) => {
-		setCurrentPage(page);
+		setFilterState((prev) => ({ ...prev, page }));
 	};
 
 	const handleViewDetail = (id: string) => {
-		const path = generatePath(ROUTES.DETAIL, { id });
-		navigate(path);
+		navigate(generatePath(ROUTES.DETAIL, { id }));
 	};
 
-	const columns = [
-		{
-			title: "View",
-			key: "view",
-			render: (_: any, record: any) => (
-				<Tooltip title="View details">
-					<EyeOutlined
-						style={{ cursor: "pointer" }}
-						onClick={() => handleViewDetail(record.imdbID)}
-					/>
-				</Tooltip>
-			),
-		},
-		{
-			title: "Name",
-			dataIndex: "Title",
-			key: "title",
-		},
-		{
-			title: "Release Date",
-			dataIndex: "Year",
-			key: "year",
-		},
-		{
-			title: "IMDb ID",
-			dataIndex: "imdbID",
-			key: "imdbID",
-		},
-	];
+	const columns = useMemo(
+		() => [
+			{
+				title: t("home.table.columns.view"),
+				key: "view",
+				render: (_: unknown, record: { imdbID: string }) => (
+					<Tooltip title={t("home.table.tooltip.viewDetails")}>
+						<EyeOutlined
+							className="view-icon"
+							onClick={() => handleViewDetail(record.imdbID)}
+						/>
+					</Tooltip>
+				),
+			},
+			{
+				title: t("home.table.columns.name"),
+				dataIndex: "Title",
+				key: "title",
+			},
+			{
+				title: t("home.table.columns.releaseDate"),
+				dataIndex: "Year",
+				key: "year",
+			},
+			{
+				title: t("home.table.columns.type"),
+				dataIndex: "Type",
+				key: "type",
+			},
+			{
+				title: t("home.table.columns.imdbID"),
+				dataIndex: "imdbID",
+				key: "imdbID",
+			},
+		],
+		[t, handleViewDetail]
+	);
 
 	return (
 		<PageLayoutComponent
-			title="Movies"
-			description="Browse and search for movies"
+			title={t("home.pageTitle")}
+			description={t("home.pageDescription")}
 			filterPanel={<Filter onFilterChange={handleFilterChange} />}
-			isLoading={isLoading}
-			isError={error instanceof Error ? error.message : undefined}
 		>
-			{data?.Search ? (
-				<>
-					<Table
-						dataSource={data.Search}
-						columns={columns}
-						rowKey="imdbID"
-						pagination={false}
-					/>
-					<Pagination
-						current={currentPage}
-						pageSize={10}
-						total={parseInt(data.totalResults, 10)}
-						onChange={handlePageChange}
-						className="mt-4 d-flex justify-center"
-					/>
-				</>
-			) : (
-				<Alert message="No movies found." type="info" />
-			)}
+			<StatusComponent
+				isLoading={isLoading}
+				isError={Boolean(error)}
+				errorMessage={error?.message}
+			>
+				{data?.Search?.length ? (
+					<>
+						<Table
+							dataSource={data.Search}
+							columns={columns}
+							rowKey="imdbID"
+							pagination={false}
+						/>
+						<Pagination
+							current={filterState.page}
+							pageSize={10}
+							total={Number(data.totalResults)}
+							onChange={handlePageChange}
+							className="mt-4 d-flex justify-center"
+							showSizeChanger={false}
+						/>
+					</>
+				) : (
+					<div className="no-results">{t("home.noResults")}</div>
+				)}
+			</StatusComponent>
 		</PageLayoutComponent>
 	);
 };

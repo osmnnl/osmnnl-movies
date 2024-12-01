@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import { Form, Button, Col, Select } from "antd";
+import { useTranslation } from 'react-i18next';
 import FormItem from "../../components/FormItemComponent";
 import InputComponent from "../../components/InputComponent";
-import YearPicker from "../../components/YearPickerComponent";
+import YearPickerComponent from "../../components/YearPickerComponent";
 import ButtonComponent from "../../components/ButtonComponent";
 
 interface FilterProps {
@@ -14,6 +15,7 @@ interface FilterProps {
 }
 
 const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
+	const { t } = useTranslation();
 	const [form] = Form.useForm();
 
 	useEffect(() => {
@@ -40,37 +42,39 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
 			<div className="d-flex flex-row gap-4 flex-grow">
 				<Col span="4">
 					<FormItem
-						label="Search"
+						label={t('filter.search.label')}
 						name="search"
-						rules={[{ required: true, message: "Please enter a search term!" }]}
+						rules={[{ required: true, message: t('filter.search.validation') }]}
 						component={InputComponent}
 						componentProps={{
-							placeholder: "Search movies",
+							placeholder: t('filter.search.placeholder'),
 							onPressEnter: () => form.submit(),
 						}}
 					/>
 				</Col>
 				<Col span="3">
 					<FormItem
-						label="Year"
+						label={t('filter.year.label')}
 						name="year"
-						component={YearPicker}
+						component={YearPickerComponent}
 						componentProps={{
-							onYearChange: (year: string) => form.setFieldsValue({ year }),
+							minYear: 1900, 
+							maxYear: new Date().getFullYear(),
+							onChange: (year: string | null) => form.setFieldsValue({ year }),
 						}}
 					/>
 				</Col>
 				<Col span="3">
 					<FormItem
-						label="Type"
+						label={t('filter.type.label')}
 						name="type"
 						component={Select}
 						componentProps={{
-							placeholder: "Select type",
+							placeholder: t('filter.type.placeholder'),
 							options: [
-								{ value: "movie", label: "Movie" },
-								{ value: "series", label: "TV Series" },
-								{ value: "episode", label: "TV Episode" },
+								{ value: "movie", label: t('filter.type.options.movie') },
+								{ value: "series", label: t('filter.type.options.series') },
+								{ value: "episode", label: t('filter.type.options.episode') },
 							],
 							allowClear: true,
 						}}
@@ -78,11 +82,9 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
 				</Col>
 			</div>
 
-
 			<ButtonComponent type="primary" htmlType="submit">
-				Submit
+				{t('filter.search.button')}
 			</ButtonComponent>
-
 		</Form>
 	);
 };
